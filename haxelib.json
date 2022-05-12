@@ -1,0 +1,16 @@
+{
+    "name": "hxNovel",
+    "url": "https://github.com/lany42/hxNovel",
+    "license": "MIT",
+    "tags": ["openFL", "js", "neko", "cpp"],
+    "description": "A visual novel engine built on OpenFL.",
+    "version": "1.0.0-alpha",
+    "releasenote": "Initial release",
+    "classPath": "src/",
+    "contributors": ["lany42"],
+    "dependencies": {
+        "openfl": "",
+        "lime": "",
+        "actuate": ""
+    }
+}
