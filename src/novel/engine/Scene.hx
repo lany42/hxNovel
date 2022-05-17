@@ -8,17 +8,17 @@ import openfl.events.Event;
 import openfl.display.Shape;
 import openfl.utils.Future;
 import openfl.display.Sprite;
-import novel.engine.Frame;
+import novel.engine.frame.Frame;
 
 class Scene extends Sprite {
     public var maxWidth:Float;
     public var maxHeight:Float;
 
-    // NOTE: Top-level blackout mask for fading the scene
-    var curtains:Shape;
-
     // TODO: Placeholder for overlaid GUI sprites
     var ui:Sprite;
+
+    // NOTE: blackout mask for fading the scene
+    var curtains:Shape;
 
     // TODO: Placeholder for character sprite table
     var characters:Sprite;
@@ -56,13 +56,13 @@ class Scene extends Sprite {
             maxWidth  = background.width;
 
             addChild(characters);
-            addChild(ui);
 
             curtains.graphics.beginFill(0x000000, 1);
             curtains.graphics.drawRect(0, 0, maxWidth, maxHeight);
             curtains.graphics.endFill();
-
             addChild(curtains);
+
+            addChild(ui);
 
             // TODO: finalize frame logic
 

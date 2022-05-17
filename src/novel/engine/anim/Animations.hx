@@ -1,4 +1,4 @@
-package novel.engine;
+package novel.engine.anim;
 
 import motion.Actuate;
 import motion.easing.Quad;
