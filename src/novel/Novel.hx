@@ -12,7 +12,8 @@ class Novel {
     }
 
     public function readScript(script:()->Void) {
-        
+        script(); 
+        engine.finalize();
     }
 
     public function start() {

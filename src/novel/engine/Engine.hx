@@ -1,6 +1,8 @@
 package novel.engine;
 
+import novel.engine.factory.SceneBuilder;
 import openfl.Lib;
+import openfl.text.Font;
 import openfl.events.Event;
 import openfl.display.Shape;
 import openfl.display.Sprite;
@@ -9,6 +11,8 @@ import novel.engine.Scene;
 class Engine extends Sprite {
     static public var title:String;
     static public var playername:String;
+    static public var assetPath:String;
+    static public var defaultFontName:String;
 
     final BORDER_DEPTH:Float = 600;
 
@@ -22,15 +26,22 @@ class Engine extends Sprite {
 
         title = "hxNovel-game";
         playername = "player";
+        assetPath = "./";
+        defaultFontName = "";
 
         Lib.current.stage.addEventListener(Event.RESIZE, stageResize);
         addEventListener(Events.SCENE_COMPLETE, advance);
     }
 
     public function start() {
-        advance(null);
         stageResize(null);
         Lib.current.addChild(this);
+    }
+
+    // Get a ref to the sceneStack constructed by the SceneBuilder
+    public function finalize() {
+        this.sceneStack = SceneBuilder.sceneStack;
+        advance(null);
     }
 
     private function advance(e:Event) {

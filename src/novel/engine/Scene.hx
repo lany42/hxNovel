@@ -1,6 +1,5 @@
 package novel.engine;
 
-import novel.util.Util;
 import openfl.ui.Keyboard;
 import openfl.events.KeyboardEvent;
 import openfl.events.MouseEvent;
@@ -8,6 +7,7 @@ import openfl.events.Event;
 import openfl.display.Shape;
 import openfl.utils.Future;
 import openfl.display.Sprite;
+import novel.util.Util;
 import novel.engine.frame.Frame;
 
 class Scene extends Sprite {
@@ -30,6 +30,9 @@ class Scene extends Sprite {
 
     /** All futures returned due to loading external resources (default behavior) **/
     var futures:Array<Future<Bool>>;
+
+    // TODO: implement lazy construction of scenes by caching init commands
+    // var initCmds:Array<Command>;
 
     public function new() {
         super();
@@ -60,6 +63,7 @@ class Scene extends Sprite {
             curtains.graphics.beginFill(0x000000, 1);
             curtains.graphics.drawRect(0, 0, maxWidth, maxHeight);
             curtains.graphics.endFill();
+            curtains.alpha = 0;
             addChild(curtains);
 
             addChild(ui);
@@ -69,6 +73,16 @@ class Scene extends Sprite {
             play(null);
             return Future.withValue(true);
         });
+    }
+
+    public function setBackground(path:String) {
+        var future = Util.loadBitmap(path,
+            (bitmap) -> {
+                bitmap.smoothing = true;
+                background.addChild(bitmap);
+            }
+        );
+        futures.push(future);
     }
 
     private function interactable(b:Bool) {
@@ -96,7 +110,7 @@ class Scene extends Sprite {
 
             interactable(true);
         } else {
-            parent.dispatchEvent(new Events(Events.SCENE_COMPLETE));
+            //parent.dispatchEvent(new Events(Events.SCENE_COMPLETE));
         }
     }
 }
