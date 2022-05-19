@@ -1,5 +1,7 @@
 package novel.util;
 
+import openfl.utils.Assets;
+import openfl.text.Font;
 import openfl.display.Bitmap;
 import openfl.display.BitmapData;
 import openfl.utils.Future;
@@ -46,6 +48,14 @@ class Util {
         })
         .onError((_) -> {
             throw 'Failed to load url: ${url}';
+        });
+    }
+
+    static public function loadFont(url:String, cb:Font -> Void):Future<Bool> {
+        return Assets.loadFont(url)
+        .then((font) -> {
+            cb(font);
+            return Future.withValue(true);
         });
     }
 }

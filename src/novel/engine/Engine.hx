@@ -1,5 +1,6 @@
 package novel.engine;
 
+import openfl.display.StageScaleMode;
 import novel.engine.factory.SceneBuilder;
 import openfl.Lib;
 import openfl.text.Font;
@@ -29,12 +30,12 @@ class Engine extends Sprite {
         assetPath = "./";
         defaultFontName = "";
 
+        Lib.current.stage.scaleMode = StageScaleMode.NO_SCALE;
         Lib.current.stage.addEventListener(Event.RESIZE, stageResize);
         addEventListener(Events.SCENE_COMPLETE, advance);
     }
 
     public function start() {
-        stageResize(null);
         Lib.current.addChild(this);
     }
 
@@ -60,6 +61,8 @@ class Engine extends Sprite {
 
                 addChild(currentScene);
                 addChild(makeBorderMask());
+
+                stageResize(null);
             });
 
             status.onError((error) -> {

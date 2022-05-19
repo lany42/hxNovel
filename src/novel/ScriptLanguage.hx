@@ -1,8 +1,11 @@
 package novel;
 
-import novel.engine.factory.FrameBuilder;
 import novel.engine.Engine;
+import novel.engine.frame.LayerOpts;
 import novel.engine.factory.SceneBuilder;
+import novel.engine.factory.FrameBuilder;
+
+typedef SpriteOpts = LayerOpts;
 
 class ScriptLanguage {
     /** Register the root path for all game assets **/
@@ -26,8 +29,8 @@ class ScriptLanguage {
     }
 
     /** Register a character with the game **/
-    private function character(id:String, pathspec:String) {
-        return new FrameBuilder(id, pathspec);
+    private function character(id:String, pathspec:String, ?opts:LayerOpts) {
+        return new FrameBuilder(id, pathspec, opts);
     }
 
     /** Start a new scene **/

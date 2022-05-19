@@ -1,6 +1,7 @@
 package novel.engine.factory;
 
 import novel.engine.frame.Frame;
+import novel.engine.frame.LayerOpts;
 import novel.engine.enums.EffectType;
 
 using StringTools;
@@ -8,10 +9,14 @@ using StringTools;
 class FrameBuilder {
     var id:String;
     var pathspec:String;
+    var defaultOpts:LayerOpts;
 
-    public function new(id:String, pathspec:String) {
+    public function new(id:String, pathspec:String, ?opts:LayerOpts) {
         this.id = id;
         this.pathspec = Engine.assetPath + pathspec;
+        this.defaultOpts = null;
+        if (opts != null)
+            this.defaultOpts = opts;
     }
 
     public function show(tags:String) {
@@ -19,8 +24,8 @@ class FrameBuilder {
         var img = pathspec.replace("*", tags);
 
         SceneBuilder._currentFrame = new Frame(this.id, SPRITE);
-        var future = SceneBuilder._currentFrame.load(img);
-        // TODO: Add frame and future to current scene
+        var future = SceneBuilder._currentFrame.loadSprite(img, defaultOpts);
+        SceneBuilder._currentScene.addFrame(SceneBuilder._currentFrame, future);
         return this;
     }
 
@@ -35,9 +40,11 @@ class FrameBuilder {
         text = ~/\s+/g.replace(text, " ").trim();
         text = ~/~player~/g.replace(text, Engine.playername);
 
+        var font = Engine.assetPath + Engine.defaultFontName;
+
         SceneBuilder._currentFrame = new Frame(this.id, TEXT);
-        // TODO: Add text to frame
-        // TODO: Add frame to current scene
+        var future = SceneBuilder._currentFrame.loadText(font, text, name);
+        SceneBuilder._currentScene.addFrame(SceneBuilder._currentFrame, future);
         return this;
     }
 }
